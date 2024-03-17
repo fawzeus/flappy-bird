@@ -34,3 +34,13 @@ void Bird::gravity(){
 void Bird::update_position(){
     bird_image.setPosition(x,y);
 }
+
+bool Bird::check_collusion(sf::Sprite sp)
+{
+    return bird_image.getGlobalBounds().intersects(sp.getGlobalBounds());
+}
+
+bool Bird::check_tube_collusion(Tube t){
+    return t.get_lower_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds()) or \
+    t.get_upper_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds());
+}
