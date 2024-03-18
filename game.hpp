@@ -4,6 +4,7 @@
 #include "bird.hpp"
 #include <vector>
 #include <unistd.h>
+#include <thread>
 class Game {
     private:
         Bird bird;

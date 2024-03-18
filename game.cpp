@@ -74,7 +74,7 @@ void Game::play(){
     bird.draw(window);
     window.display();
     window.clear();
-    if(bird.check_collusion(ground_image)) break;
+    if(bird.check_collusion(ground_image) or bird.check_tube_collusion(tubes)) break;
     usleep(10000);
     }   
 }
@@ -90,8 +90,14 @@ void Game::add_tube() {
 void Game::draw_tubes(sf::RenderWindow &window){
     for(auto tube=tubes.begin();tube!=tubes.end();tube++){
         tube->draw(window);
+        sf::Event event;
+        while(window.pollEvent(event)){
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
     }
 }
+
 
 void Game::delete_old_tubes(){
     std::vector<int> indexes;

@@ -1,7 +1,13 @@
 #include "bird.hpp"
 #include <iostream>
 
+double max(double a, double b){
+    return (a>b? a:b);
+}
 
+double min(double a, double b){
+    return (a>b? b:a);
+}
 
 Bird::Bird(double x, double y, double speed ):x(x),y(y),speed(speed){
     bird.loadFromFile("images/bird.png");
@@ -40,7 +46,11 @@ bool Bird::check_collusion(sf::Sprite sp)
     return bird_image.getGlobalBounds().intersects(sp.getGlobalBounds());
 }
 
-bool Bird::check_tube_collusion(Tube t){
-    return t.get_lower_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds()) or \
-    t.get_upper_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds());
+bool Bird::check_tube_collusion(std::vector<Tube> tubes){
+    bool res = false;
+    for(auto tube=tubes.begin();tube!=tubes.end();tube++){
+        res |=tube->get_lower_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds()) or \
+        tube->get_upper_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds());
+    }
+    return res;
 }
