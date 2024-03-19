@@ -139,7 +139,7 @@ void Game::draw_score(sf::RenderWindow &window){
 }
 
 void Game::update_score(){
-    if(!tubes.size())return;
+    if(tubes.size()<1)return;
     if(tubes[0].get_passed()) puts("true");
     else puts("false");
     if(!tubes[0].get_passed() and tubes[0].getX()+tubes[0].get_upper_tube().getGlobalBounds().width/2<bird.getX()){
