@@ -1,6 +1,6 @@
 #include "tube.hpp"
 
-Tube::Tube(double x, double y,bool passed):x(x),y(y),passed(passed){
+Tube::Tube(double x, double y):x(x),y(y),passed(false){
     upper_tube.loadFromFile("images/tube.png");
     lower_tube.loadFromFile("images/tube.png");
     upper_tube_image.setTexture(upper_tube);
@@ -12,6 +12,7 @@ Tube::Tube(double x, double y,bool passed):x(x),y(y),passed(passed){
     lower_tube_image.setPosition(x+100,y+lower_tube_image.getGlobalBounds().height+250);
 }
 Tube::Tube(const Tube &other){
+    passed=other.passed;
     x=other.x;
     y=other.y;
     upper_tube=other.upper_tube;
@@ -28,6 +29,7 @@ Tube::Tube(const Tube &other){
 
 Tube Tube::operator=(const Tube &other){
     if(this!=&other){
+        passed=other.passed;
         x=other.x;
         y=other.y;
         upper_tube=other.upper_tube;
@@ -73,4 +75,7 @@ void Tube::set_passed(){
 
 bool Tube::get_passed(){
     return passed;
+}
+void Tube::print(){
+    printf("tube (%lf,%lf) with passed = %d\n",x,y,passed);
 }

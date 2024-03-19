@@ -88,7 +88,10 @@ void Game::init(){
 }
 
 void Game::add_tube() {
-    tubes.push_back(Tube());
+    Tube t;
+    //printf("new ");
+    //t.print();
+    tubes.push_back(t);
 }
 
 void Game::draw_tubes(sf::RenderWindow &window){
@@ -140,8 +143,9 @@ void Game::draw_score(sf::RenderWindow &window){
 
 void Game::update_score(){
     if(tubes.size()<1)return;
-    if(tubes[0].get_passed()) puts("true");
-    else puts("false");
+    //tubes[0].print();
+    //std::cout<<tubes[0].get_passed()<<std::endl;
+    //std::cout<<!tubes[0].get_passed()<<std::endl;
     if(!tubes[0].get_passed() and tubes[0].getX()+tubes[0].get_upper_tube().getGlobalBounds().width/2<bird.getX()){
         score++;
         tubes[0].set_passed();

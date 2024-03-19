@@ -10,7 +10,7 @@ private:
     sf::Texture upper_tube,lower_tube;
     sf::Sprite upper_tube_image,lower_tube_image; // the upper and the lower tubes
 public:
-    Tube(double x=WIDTH, double y=0, bool passed = false);
+    Tube(double x=WIDTH, double y=0);
     Tube(const Tube& other);
     Tube operator=(const Tube &other);
     void draw(sf::RenderWindow &window);
@@ -21,6 +21,7 @@ public:
     double getY();
     void set_passed();
     bool get_passed();
+    void print();
 };
 
 #endif

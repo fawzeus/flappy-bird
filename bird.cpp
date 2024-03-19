@@ -32,6 +32,7 @@ void Bird::move(){
 }
 void Bird::gravity(){
     y+=speed;
+    y=max(y,bird_image.getGlobalBounds().height/2);
     speed+=0.2;
     update_position();
     if (bird_image.getRotation()<90)

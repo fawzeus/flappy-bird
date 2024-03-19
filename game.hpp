@@ -5,6 +5,7 @@
 #include <vector>
 #include <unistd.h>
 #include <thread>
+#include <iostream>
 class Game {
     private:
         int score;
