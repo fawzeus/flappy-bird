@@ -48,9 +48,18 @@ bool Bird::check_collusion(sf::Sprite sp)
 
 bool Bird::check_tube_collusion(std::vector<Tube> tubes){
     bool res = false;
+    //check for collusion between the bird and each tube;
     for(auto tube=tubes.begin();tube!=tubes.end();tube++){
+        res |= (x<tube->getX()+tube->get_lower_tube().getGlobalBounds().width/2 and \
+                x>tube->getX()-tube->get_lower_tube().getGlobalBounds().width/2-30) and(\
+                y<tube->get_upper_tube().getPosition().y+tube->get_upper_tube().getGlobalBounds().height/2+30 or\
+                y>tube->get_lower_tube().getPosition().y-tube->get_lower_tube().getGlobalBounds().height/2-30);
+        /*
         res |=tube->get_lower_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds()) or \
-        tube->get_upper_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds());
+        tube->get_upper_tube().getGlobalBounds().intersects(bird_image.getGlobalBounds());*/
     }
     return res;
+}
+double Bird::getX(){
+    return x;
 }

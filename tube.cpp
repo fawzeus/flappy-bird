@@ -1,6 +1,6 @@
 #include "tube.hpp"
 
-Tube::Tube(double x, double y):x(x),y(y){
+Tube::Tube(double x, double y,bool passed):x(x),y(y),passed(passed){
     upper_tube.loadFromFile("images/tube.png");
     lower_tube.loadFromFile("images/tube.png");
     upper_tube_image.setTexture(upper_tube);
@@ -62,4 +62,15 @@ sf::Sprite Tube::get_lower_tube(){
 }
 double Tube::getX(){
     return x;
+}
+double Tube::getY(){
+    return y;
+}
+
+void Tube::set_passed(){
+    passed=true;
+}
+
+bool Tube::get_passed(){
+    return passed;
 }

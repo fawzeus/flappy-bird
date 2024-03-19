@@ -16,6 +16,7 @@ class Bird{
         void update_position();//update the position of bird sprite after moving
         bool check_collusion(sf::Sprite sp); // check for collusion between sprite and the bird
         bool check_tube_collusion(std::vector<Tube> tubes); // check for collusin between bird and Tube (upper and lowers sprites)
+        double getX();
 };
 
 double max(double a, double b);
