@@ -5,6 +5,8 @@ Game::Game(){
         exit(-1);
     }
     score=0;
+    pause=false;
+    lost=false;
     background.loadFromFile("images/background.png");
 	background_image.setTexture(background);
     ground.loadFromFile("images/ground.png");
@@ -12,7 +14,6 @@ Game::Game(){
 }
 void Game::play(){
     //crate the game window
-    srand(time(0));
     int time=0;
     sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT),"Flappy Bird Game");
     while(window.isOpen()){
@@ -27,7 +28,7 @@ void Game::play(){
                 }
                 else if(event.key.code==sf::Keyboard::P){
                     pause=!pause;
-                    if (pause){
+                    if (!lost and pause){
                         sf::Text text;
                         // select the font
                         text.setFont(font); // font is a sf::Font
@@ -56,15 +57,26 @@ void Game::play(){
                         window.display();
                     }
                 }
+                else if(event.key.code==sf::Keyboard::R){
+                    if(lost){
+                        init();
+                    }
+                }
+                else if(event.key.code==sf::Keyboard::Q){
+                    window.close();
+                    exit(0);
+                }
             }
         }
+    
     //if pause freeze the screen 
-    if(pause) continue;
+    handle_game_over(window);
+    if(pause or lost) continue;
     time++;
     //apply gravity on bird
     bird.gravity();
     window.draw(background_image);
-    if(time>=rand()%600+200)
+    if(time>=rand_int(200,800))
     {
         add_tube();
         time=0;
@@ -78,18 +90,25 @@ void Game::play(){
     bird.draw(window);
     window.display();
     window.clear();
-    if(bird.check_collusion(ground_image) or bird.check_tube_collusion(tubes)) break;
+    if(bird.check_collusion(ground_image) or bird.check_tube_collusion(tubes)) lost = true;
     usleep(10000);
     }   
 }
 void Game::init(){
+    bird = Bird();
+
+    tubes.erase(tubes.begin(),tubes.end());
+    pause=false;
+    score=0;
+    lost=false;
     ground_image.setScale(1,0.5);
     ground_image.setPosition(0,650);
+
 }
 
 void Game::add_tube() {
-    Tube t;
-    //printf("new ");
+
+    Tube t(WIDTH+200,rand_int(-50,50));
     //t.print();
     tubes.push_back(t);
 }
@@ -97,11 +116,6 @@ void Game::add_tube() {
 void Game::draw_tubes(sf::RenderWindow &window){
     for(auto tube=tubes.begin();tube!=tubes.end();tube++){
         tube->draw(window);
-        sf::Event event;
-        while(window.pollEvent(event)){
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
     }
 }
 
@@ -149,5 +163,51 @@ void Game::update_score(){
     if(!tubes[0].get_passed() and tubes[0].getX()+tubes[0].get_upper_tube().getGlobalBounds().width/2<bird.getX()){
         score++;
         tubes[0].set_passed();
+    }
+}
+
+void Game::handle_game_over(sf::RenderWindow &window){
+    if (lost){
+        sf::Text text1,text2;
+        // select the font
+        text1.setFont(font); // font is a sf::Font
+        text2.setFont(font);
+        // set the string to display
+        text1.setString("YOU LOST !");
+        text2.setString("Press R to play again or Q to quit");
+        text1.setCharacterSize(70);
+        text2.setCharacterSize(50);
+        //set the position to the center
+        text1.setPosition(WIDTH/2-text1.getGlobalBounds().width/2,HEIGHT/2-text1.getGlobalBounds().height/2-200);
+        text2.setPosition(WIDTH/2-text2.getGlobalBounds().width/2,HEIGHT/2-text2.getGlobalBounds().height/2);
+        // set the color
+        text1.setFillColor(sf::Color::White);
+        // set the text style
+        text1.setStyle(sf::Text::Bold);
+        window.clear();
+        window.draw(background_image);
+        draw_tubes(window);
+        window.draw(ground_image);
+        bird.draw(window);
+        window.draw(text1);
+        window.draw(text2);
+        draw_score(window);
+        window.display();
+    }
+}
+
+int rand_int(int a, int b){
+    if (a==b) return a;
+    srand(time(0));
+    if(a>=0)return rand()%(b-a)+a;
+    else{
+        if (b>=0){
+            return rand()%(b-a)+a;
+        }
+        else {
+            a*=-1;
+            b*=-1;
+            return -1*rand()%(a-b)+b;
+        }
     }
 }

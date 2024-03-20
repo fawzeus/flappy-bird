@@ -10,6 +10,8 @@ class Bird{
 	    sf::Sprite bird_image; //sprite that represent the bird
     public:
         Bird(double x=200, double y=100,double speed =1);
+        Bird(const Bird& other); //copy constructor
+        Bird& operator=(const Bird& other);
         void draw(sf::RenderWindow &window);//draw bird
         void move();//move the bird up
         void gravity(); //apply gravity on bird

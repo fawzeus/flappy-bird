@@ -9,8 +9,9 @@ private:
     bool passed; //indicate if the bird skiped this tube
     sf::Texture upper_tube,lower_tube;
     sf::Sprite upper_tube_image,lower_tube_image; // the upper and the lower tubes
+    double gap; //distance between opposite tubes
 public:
-    Tube(double x=WIDTH, double y=0);
+    Tube(double x, double y);
     Tube(const Tube& other);
     Tube operator=(const Tube &other);
     void draw(sf::RenderWindow &window);

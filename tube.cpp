@@ -1,17 +1,19 @@
 #include "tube.hpp"
 
-Tube::Tube(double x, double y):x(x),y(y),passed(false){
+Tube::Tube(double x, double y):x(x),y(y),passed(false),gap(250){
     upper_tube.loadFromFile("images/tube.png");
     lower_tube.loadFromFile("images/tube.png");
     upper_tube_image.setTexture(upper_tube);
     lower_tube_image.setTexture(lower_tube);
     upper_tube_image.setOrigin(upper_tube_image.getGlobalBounds().width/2,upper_tube_image.getGlobalBounds().height/2);
     lower_tube_image.setOrigin(lower_tube_image.getGlobalBounds().width/2,lower_tube_image.getGlobalBounds().height/2);
+    //printf("%lf\n",x);
     upper_tube_image.setPosition(x,y);
     upper_tube_image.setRotation(180);
-    lower_tube_image.setPosition(x+100,y+lower_tube_image.getGlobalBounds().height+250);
+    lower_tube_image.setPosition(x,y+lower_tube_image.getGlobalBounds().height+gap);
 }
 Tube::Tube(const Tube &other){
+    gap=other.gap;
     passed=other.passed;
     x=other.x;
     y=other.y;
@@ -21,14 +23,16 @@ Tube::Tube(const Tube &other){
     upper_tube_image.setTexture(upper_tube);
     upper_tube_image.setOrigin(upper_tube_image.getGlobalBounds().width/2,upper_tube_image.getGlobalBounds().height/2);
     lower_tube_image.setOrigin(lower_tube_image.getGlobalBounds().width/2,lower_tube_image.getGlobalBounds().height/2);
+    //x+=upper_tube_image.getGlobalBounds().width/2;
     upper_tube_image.setRotation(180);
     upper_tube_image.setPosition(x,y);
-    lower_tube_image.setPosition(x+100,y+lower_tube_image.getGlobalBounds().height+250);
+    lower_tube_image.setPosition(x+100,y+lower_tube_image.getGlobalBounds().height+gap);
 
 }
 
 Tube Tube::operator=(const Tube &other){
     if(this!=&other){
+        gap=other.gap;
         passed=other.passed;
         x=other.x;
         y=other.y;
@@ -38,9 +42,10 @@ Tube Tube::operator=(const Tube &other){
         upper_tube_image.setTexture(upper_tube);
         upper_tube_image.setOrigin(upper_tube_image.getGlobalBounds().width/2,upper_tube_image.getGlobalBounds().height/2);
         lower_tube_image.setOrigin(lower_tube_image.getGlobalBounds().width/2,lower_tube_image.getGlobalBounds().height/2);
+        //x+=upper_tube_image.getGlobalBounds().width/2;
         upper_tube_image.setRotation(180);
         upper_tube_image.setPosition(x,y);
-        lower_tube_image.setPosition(x+100,y+lower_tube_image.getGlobalBounds().height+250);
+        lower_tube_image.setPosition(x+100,y+lower_tube_image.getGlobalBounds().height+gap);
     }
     return *this;
 }
@@ -53,7 +58,7 @@ void Tube::draw(sf::RenderWindow &window){
 void Tube::move(){
     x-=2;
     upper_tube_image.setPosition(x,y);
-    lower_tube_image.setPosition(x,y+lower_tube_image.getGlobalBounds().height+250);
+    lower_tube_image.setPosition(x,y+lower_tube_image.getGlobalBounds().height+gap);
 }
 
 sf::Sprite Tube::get_upper_tube(){

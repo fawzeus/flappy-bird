@@ -18,6 +18,26 @@ Bird::Bird(double x, double y, double speed ):x(x),y(y),speed(speed){
     bird_image.setScale(0.25,0.25);
 }
 
+Bird::Bird(const Bird& other) {
+    x = other.x;
+    y = other.y;
+    speed = other.speed;
+    bird = other.bird;
+    bird_image.setTexture(bird);
+}
+
+// Assignment operator
+Bird& Bird::operator=(const Bird& other) {
+    if (this != &other) {
+        x = other.x;
+        y = other.y;
+        speed = other.speed;
+        bird = other.bird; 
+        bird_image.setTexture(bird); 
+    }
+    return *this;
+}
+
 void Bird::draw(sf::RenderWindow &window){
     window.draw(bird_image);
 }

@@ -16,7 +16,8 @@ class Game {
         sf::Texture ground;
         sf::Sprite ground_image;
         sf::Font font;
-        bool pause=false; // variable that indicate if game is paused
+        bool pause; // variable that indicate if game is paused
+        bool lost; // indicate if the player lost the game
     public:
         Game();
         void init(); // init sprites of game
@@ -27,7 +28,10 @@ class Game {
         void move_tubes(); // move the tubes
         void draw_score(sf::RenderWindow &window); // draw the score of the player
         void update_score(); //update the score
+        void handle_game_over(sf::RenderWindow &window); // hande case when player lose 
 };
+
+int rand_int(int a,int b);
 
 
 
